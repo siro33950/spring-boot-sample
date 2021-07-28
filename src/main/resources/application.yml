@@ -1,0 +1,35 @@
+spring:
+  resources:
+    # 静的リソースマッピングを外す
+    add-mappings: false
+  mvc:
+    # ハンドラが見つからない場合にNoHandlerFoundExceptionを投げる
+    throw-exception-if-no-handler-found: true
+  datasource:
+    url: jdbc:mysql://localhost/sample?useSSL=false&characterEncoding=utf8&rewriteBatchedStatements=true&useServerPrepStmts=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    validationQuery: SELECT 1
+    tomcat:
+      # 最大コネクション数
+      max-active: 8
+      max-idle: 4
+      min-idle: 4
+      # プールからコネクションを取得する際に有効性を確認するか否か
+      # trueに設定すると、プールからコネクションを取得する際に検証を行う
+      test-on-borrow: true
+      # http://www.schibsted.pl/blog/rds-database-connection-pooling/
+      test-on-connect: true
+      log-abandoned-connections: true
+      log-validation-errors: true
+      initial-size: 8
+      max-wait: 30000
+      # trueに設定すると、監視スレッドがアイドル状態のコネクションの生存確認を行う際に、有効性の検証も行う
+      # 検証に失敗した場合は、プールから削除される
+      test-while-idle: true
+      # コネクションの有効性検証用のクエリ
+      validation-query: SELECT 1
+      # 指定した間隔で監視スレッドを起動し、監視スレッドはコネクションの生存確認を行い、
+      # 30分（デフォルト）以上アイドル状態のコネクションをプールから削除していく。
+      time-between-eviction-runs-millis: 60000
